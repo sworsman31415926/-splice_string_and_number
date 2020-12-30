@@ -1,0 +1,41 @@
+error: ‘sprintf_s’ was not declared in this scope； did you mean ‘_sprintf_r’?
+
+sworsman31415926 2020-12-30 16:13:57  收藏
+分类专栏： c++
+编辑 版权
+ error: ‘sprintf_s’ was not declared in this scope; did you mean ‘_sprintf_r’?
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+
+需要包含的头文件：#include <stdio.h>
+
+注意：
+
+sprintf_s()是sprintf()的安全版本，通过指定缓冲区长度来避免sprintf()存在的溢出风险
+
+头文件add之后还是提示同样的问题。
+
+。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+
+在下用的环境是linux os
+
+ 
+
+windows平台下线程安全的格式化字符串函数sprint_s并非标准C函数，因此linux下无法使用，但可以使用snprintf函数代替。。。。。。。。 
+
+/*函数原型：*/
+int snprintf(char *dest, size_t n, const char *fmt, ...);
+ 
+/*函数说明: 最多从源串中拷贝n－1个字符到目标串中，然后再在后面加一个0。所以如果目标串的大小为n的话，将不会溢出。
+函数返回值: 若成功则返回存入数组的字符数，若编码出错则返回负值。
+推荐的用法：*/
+void f(const char *p)
+{
+    char buf[11]={0};
+    snprintf(buf, sizeof(buf), "%10s", p); // 注意：这里第2个参数应当用sizeof(str)，而不要使用硬编码11，也不应当使用sizeof(str)-1或10
+    printf("%sn",buf);
+}
+ 
+
+。。。。。。。。。。。。。。。。。。。。。。。。。
+
+build ok  
